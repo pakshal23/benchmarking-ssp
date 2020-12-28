@@ -19,12 +19,14 @@ function [FBS] = run_FBS(C_fidelity, C_regul, params, x0)
 
 FBS = OptiFBS(C_fidelity, C_regul);
 FBS.fista = true;
-FBS.OutOp = OutputOptiSNR(true, [], params.iterVerb);
+%FBS.OutOp = OutputOptiSNR(true, [], params.iterVerb);
+FBS.OutOp = OutputOpti(true, [], params.iterVerb);
 CvOp = TestCvgCostRelative(params.relative_tol);
 FBS.CvOp = CvOp;
 FBS.maxiter = params.maxiter;
 FBS.ItUpOut = params.ItUpOut;
 FBS.verbose = params.verbose;
+%FBS.gam  % We let the library set 'gam' on its own
 FBS.run(x0);
 
 end

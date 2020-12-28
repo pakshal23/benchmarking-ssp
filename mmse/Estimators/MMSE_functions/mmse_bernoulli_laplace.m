@@ -30,7 +30,6 @@ lam = 1 - sig_params.dist_param(1);
 
 % Gibbs sampling loop
 for iterGibbs = 2:algo_params.num_iter
-    
     ind0 = (q_aux==0);
     aux(ind0) = exprnd(2*b*b, [sum(ind0), 1]);
     ind1 = (q_aux==1);

@@ -19,7 +19,8 @@ function [ADMM] = run_ADMM(C_fidelity, Cn, Hn, solver, params, x0)
 %-------------------------------------------------------------------------------------
 
 ADMM = OptiADMM(C_fidelity, Cn, Hn, params.rho, solver);
-ADMM.OutOp = OutputOptiSNR(true, [], params.iterVerb);
+%ADMM.OutOp = OutputOptiSNR(true, [], params.iterVerb);
+ADMM.OutOp = OutputOpti(true, [], params.iterVerb);
 ADMM.rho_n = params.rho;
 CvOp = TestCvgCostRelative(params.relative_tol);
 ADMM.CvOp = CvOp;

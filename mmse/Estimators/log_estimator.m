@@ -44,9 +44,6 @@ if(strcmp(params.name, 'admm'))
 
 % FISTA    
 elseif (strcmp(params.name, 'fista'))
-    % Create the look-up table for the prox operator
-    tab = generateLUT(lambda*params.gam, epsilon);
-    tfun = @(x) (interp1q(tab(:, 1),tab(:, 2),abs(x)).*sign(x));
     
     % FISTA
     K = size(L, 1);
@@ -55,6 +52,11 @@ elseif (strcmp(params.name, 'fista'))
     H_op = LinOpMatrix(H/L);
     C_fidelity = 2*CostL2(H_op.sizeout, y) * H_op;
     C_fidelity.doPrecomputation=1;
+
+    % Create the look-up table for the prox operator
+    tab = generateLUT(lambda*(1/C_fidelity.lip), epsilon);
+    tfun = @(x) (interp1q(tab(:, 1),tab(:, 2),abs(x)).*sign(x));
+    
     C_regul = lambda*CostLog([K, 1], epsilon, tfun);
     FBS = run_FBS(C_fidelity, C_regul, params, x0);
     u_est = FBS.xopt;

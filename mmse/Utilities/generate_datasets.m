@@ -2,18 +2,18 @@
 
 
 %%
-save_data = 1;
-dest_folder = '/Users/bohra/Desktop/SSP_datasets';
+save_data = 0;
+dest_folder = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/data';
 experiment = 'deconv_gaussian';  % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 
 K = 100;
-num_train_signals = 100000;
+num_train_signals = 1000;
 num_valid_signals = 1000;
 num_test_signals = 1000;
 
 num_samp_sig = 5000;   % We use num_samp_sig temporary signals to determine the noise variance from the noise level (blur SNR)
 
-handles.Prior = 'student';      % 'student' or 'alpha-stable' or 'bernoulli-laplace'
+handles.Prior = 'bernoulli-laplace';      % 'student' or 'alpha-stable' or 'bernoulli-laplace'
 handles.K = K;
 
 D = get_finite_difference_matrix(handles.K);
@@ -50,9 +50,10 @@ end
 %% Experiment parameters depending on the type of experiment
 if (strcmp(experiment, 'deconv_gaussian'))
     
-    noise_level = 30;                                                      % Noise level (input SNR) for the additive noise
+    noise_level = 20;                                                      % Noise level (input SNR) for the additive noise
     exp_param = 4;                                                         % variance of the gaussian blur / filter
     [H, M] = get_measurement_matrix(experiment, exp_param, K);
+    H = eye(K); M = K;
     
 elseif (strcmp(experiment, 'deconv_airy_disk'))
     
@@ -64,7 +65,7 @@ elseif (strcmp(experiment, 'fourier_samp'))
     
     noise_level = 30;                                                      % Noise level (input SNR) for the additive noise
     exp_param = 31;                                                        % Number of fourier samples
-    [H, M] = measurement_matrix(experiment, exp_param, K);
+    [H, M] = get_measurement_matrix(experiment, exp_param, K);
 
 end
     
@@ -135,15 +136,15 @@ if (save_data)
        
         filename = [dest_folder, '/', experiment, '_', num2str(exp_param), '_', sig_string, '_', 'sigparamidx', '_', num2str(i), '_', 'noiselevel', '_', num2str(noise_level), '_', 'train'];
         x_cell = x_cell_train(i,:); y_cell = y_cell_train(i,:);
-        save(filename, 'y_cell', 'H', 'L', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
+        save(filename, 'y_cell', 'H', 'D', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
 
         filename = [dest_folder, '/', experiment, '_', num2str(exp_param), '_', sig_string, '_', 'sigparamidx', '_', num2str(i), '_', 'noiselevel', '_', num2str(noise_level), '_', 'valid'];
         x_cell = x_cell_valid(i,:); y_cell = y_cell_valid(i,:);
-        save(filename, 'y_cell', 'H', 'L', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
+        save(filename, 'y_cell', 'H', 'D', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
 
         filename = [dest_folder, '/', experiment, '_', num2str(exp_param), '_', sig_string, '_', 'sigparamidx', '_', num2str(i), '_', 'noiselevel', '_', num2str(noise_level), '_', 'test'];
         x_cell = x_cell_test(i,:); y_cell = y_cell_test(i,:);
-        save(filename, 'y_cell', 'H', 'L', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
+        save(filename, 'y_cell', 'H', 'D', 'x_cell', 'experiment', 'handles', 'noise_level', 'exp_param', 'sig_params', 'noise_var', '-v7');
         
     end
 end
