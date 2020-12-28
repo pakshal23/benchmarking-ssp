@@ -1,0 +1,49 @@
+{
+    "mode" : "train",
+    "model_dir" : "None", 
+    
+	"dataset" : {
+    	
+        "data_type" : "stochastic_process",
+    	"data_dir" : "/home/bohra/BenchmarkingSSP/cnn/deconvolution/data/deconv_gaussian_4_bl_sigparamidx_1_noiselevel_30",
+    	"num_train" : 500000,
+        "num_valid" : 1000,
+        "num_test" : 1000
+	
+	},
+	
+	"dataloader" : {
+    	
+    	"batch_size" : 25,
+    	"num_workers" : 0
+	
+	},
+	
+	"network" : {
+    	
+        "net" : "rescnn",
+        
+        "num_layers" : 20,
+        "num_channels" : 128,
+        "filter_size" : 7
+        
+    },
+    
+    "optimizer" : {
+        
+        "name" : "adam",
+        "num_epochs" : 150,
+    	"lr" : 1e-3,
+    	"weight_decay" : 1e-3,
+    	"lr_scheduler" : true,
+        "milestones" : [25, 50, 75, 100, 125],
+        "lr_gamma" : 0.9
+        
+	},
+    
+    "device" : "cuda:0",
+	"log_dir" : "./logs/cnn_try3",
+	"tensorboard" : true,
+    "validation_step" : 25
+	
+}
