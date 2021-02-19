@@ -3,7 +3,7 @@
 K = 100;
 experiment = 'deconv_gaussian';  % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 exp_param = 4;     % parameter for the chosen experiment (see generate_datasets.m for more details)
-noise_level = 30;   % input SNR
+noise_level = 10;   % input SNR
 [H, M] = get_measurement_matrix(experiment, exp_param, K);
 
 handles.Prior = 'bernoulli-laplace';      % 'student' or 'alpha-stable' or 'bernoulli-laplace'
@@ -26,3 +26,16 @@ mmse_algo_params.burn_in = 2000;
 
 
 [x_est_l2, x_est_l1, ux_est_l1] = bayesian_bernoulli_laplace(meas, H, D, randn([K, 1]), mmse_sig_params, mmse_algo_params);
+
+% Plot signal and different estimates
+% Plot estimates based on the quantiles of u (hinge loss)
+% p = [0.1, 0.3, 0.5, 0.7, 0.9]
+p = plot(ux_est_l1,'-.','LineWidth', 2); hold on; 
+for ind = 1:5
+    p(ind).Color(4) = 0.5;
+end
+% Plot posterior mean (MSE)
+p = plot(x_est_l2,'--','LineWidth', 2); p.Color(4) = 0.5;
+% Plot signal
+p = plot(sig,'LineWidth', 2); p.Color(4) = 0.5;
+legend({'$\hat{s}_{p=0.1}$', '$\hat{s}_{p=0.3}$', '$\hat{s}_{p=0.5}$', '$\hat{s}_{p=0.7}$', '$\hat{s}_{p=0.9}$', '$\hat{s}_{\mathrm{MMSE}}$', '$s$'}, 'Interpreter', 'latex', 'FontSize', 20)
