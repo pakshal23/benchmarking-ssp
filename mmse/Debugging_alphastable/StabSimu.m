@@ -22,10 +22,13 @@
     %
     figure(2);clf
     subplot(2,1,1)
-        histogram(Samples,1000),grid on, xlabel('Variable'), title ('Histogram')
+        histogram(Samples,1000,'Normalization','pdf');
+        grid on; xlabel('Variable'); title ('Histogram'); axis tight;
     subplot(2,1,2)
-        histogram(Samples,1000000,'Normalization','pdf'),hold on, plot(Variable,StablePDF,'red')
-        grid on, xlim([Variable(1) Variable(end)]); xlabel('Variable'), title ('Histogram')
+        histogram(Samples,1000000,'Normalization','pdf'); hold on;
+        plot(Variable,StablePDF,'red','LineWidth',2)
+        grid on; xlim([Variable(1) Variable(end)]); xlabel('Variable');
+        title ('Histogram and PDF, higher-density region')
 
 % Re-simul par Mixture of Gaussian
     StableAux = makedist('Stable','alpha',Alpha/2,'beta',1,'gam', cos(pi*Alpha/4)^(2/Alpha),'delta',0);

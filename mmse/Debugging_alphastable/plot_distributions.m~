@@ -1,16 +1,13 @@
-function [] = plot_distributions(alpha, u, maxlam)
-if nargin < 3
-    maxlam = 5;
-    if nargin < 2
-        u = 0.5;
-        if nargin < 1
-            alpha = 1.5;
-        end
+function [] = plot_distributions(alpha, u, max - )
+if nargin < 2
+    u = 0.5;
+    if nargin < 1
+        alpha = 1.5;
     end
 end
-
+    
     % \lambda axis
-    lamb = (0.001:0.001:maxlam);
+    lamb = (0.001:0.001:50);
     
     % Distribution we want to sample from 
     % Term arising from Gaussian mixture
@@ -41,6 +38,6 @@ end
                'Interpreter', 'latex', 'FontSize', 15)
             legend("$\mathcal{N}(u_k; 0, 2 c^2 \lambda_k)$", ...
                    "$1/(\sqrt{2\pi} |u|) \exp(-1/2)$", ...
-               'Interpreter', 'latex', 'FontSize', 15, 'Location', 'south')
+               'Interpreter', 'latex', 'FontSize', 15)
 end
 
