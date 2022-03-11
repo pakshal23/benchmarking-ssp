@@ -1,0 +1,172 @@
+\usepackage{graphicx,epsfig}
+\usepackage{amsmath,mathrsfs} 
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+\usepackage{amssymb} 
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{multirow}
+\usepackage{mathtools} % for delimiters
+\usepackage{cite}
+\usepackage{epstopdf}
+\usepackage{ifthen}
+\usepackage{bbm}
+\usepackage{setspace}
+%\graphicspath{{eps/}}
+\newcommand{\inR}{\in \mathbb{R}}
+\newcommand{\inZ}{\in \mathbb{Z}}
+\newcommand{\C}{ \mathbb{C}}
+\newcommand{\R}{ \mathbb{R}}
+\newcommand{\Rm}{\mathbb{R}^M}
+\newcommand{\Rd}{\mathbb{R}}
+\newcommand{\Z}{ \mathbb{Z}}
+\newcommand{\N}{ \mathbb{N}}
+\newcommand{\Hilbert}{ \mathcal{H}}
+\newcommand{\eqdef}{\stackrel{\vartriangle}{=}}
+\newcommand{\lvar}{\Lop_{\boldsymbol {\phi}}^{-1}}
+\newcommand{\Lop}{{\rm L}}
+\newcommand{\Dop}{{\rm D}}
+\newcommand{\Iop}{{\rm I}}
+\newcommand{\Mop}{{\rm M}}
+\newcommand{\Mopa}{{\rm M^{*}}}
+\newcommand{\dint}{{\rm d}}
+\newcommand{\Rtik}{R_{\text{Tik}}}
+\newcommand{\Rgtv}{R_{\text{gTV}}}
+%\newcommand{\bl}{{\mathcal{L}_{2, \rm L}(\mathbb{R}^{d})}}
+\newcommand{\bl}{{\mathcal{X}_{2}}}
+\newcommand{\bltv}{{\mathcal{X}_{ 1}}}
+
+\newcommand{\ud}{\,\mathrm{d}}
+
+\newcommand{\bld}{\mathcal{L}_{2, \rm L}}
+\newcommand{\Fourier}{ \mathcal{F}} 
+\newcommand{\bz}{{\boldsymbol z}}
+\newcommand{\bx}{{\boldsymbol x}}
+%\newcommand{\by}{{\boldsymbol y}}
+\newcommand{\bt}{{\boldsymbol t}}
+\newcommand{\bw}{{\boldsymbol \Omega}}
+
+\newcommand{\bnu}{{\boldsymbol{\nu}}}
+\newcommand{\by}{{\mathbf{y}}}
+
+\newcommand{\nl}{\mathcal N_{\rm L}}
+\newcommand{\nlp}{{\mathcal{L}_{2, \rm 0}(\mathbb{R}^{})}}
+\newcommand{\lin}{L_{\infty,-n_0}(\mathbb{R}^{})}
+\newcommand{\ltwo}{L_{2}(\mathbb{R}^{})}
+\newcommand{\bn}{{\boldsymbol p}}
+%\newcommand{\bl}{{\boldsymbol l}}
+\newcommand{\nm}{\mathcal{N}(\rm M)}
+\newcommand{\znl}{\Op Z_{\nl}}
+\newcommand{\nla}{\nl^{0}}
+\newcommand{\xt}{t}
+\newcommand{\lm}{ \lambda}
+\newcommand{\gm}{\gamma}
+\newcommand{\vlm}{\boldsymbol{\lambda}}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator*{\essinf}{ess\,inf}
+\DeclareMathOperator*{\real}{Re}
+\DeclareMathOperator*{\imag}{Im}
+\newcommand{\dualprod}[1]{\langle#1\rangle_{\mathbb{T}^d}}
+\newcommand{\dualSchwartz}[1]{\langle#1\rangle_{\R^d}}
+\newcommand{\scp}[2]{\left\langle #1,#2 \right\rangle}
+\newcommand{\sumj}{{\sum_{j=1}^{N_0}}}
+\newcommand{\sumi}{{\sum_{i=1}^{M}}}
+\newcommand{\sumr}{{\sum_{r=1}^{M}}}
+\newcommand{\as}{{\Spc A}}
+\newcommand{\ap}{{\mathcal {A^{\bot}}}}
+\newcommand{\ah}{{\mathcal A\mathcal H}}
+\newcommand{\anl}{{\mathcal A \nl }}
+\newcommand{\aph}{{\mathcal {A^{\bot}} \mathcal H}}
+\newcommand{\apnl}{{\mathcal {A^{\bot}} \mathcal N_{\rm L} }}
+\newcommand{\na}{{\mathcal N^{\V \nu} }}
+\newcommand{\eg}{\textit{e.g.}}
+\newcommand{\betaL}{\beta_{\mathrm{L}}}
+%\DeclarePairedDelimiterX\dualprod[2]{\langle}{\rangle_{\mathbb{T}^d}}{#1,#2}
+%\DeclarePairedDelimiterX\dualprod2[1]{\langle}{\rangle_{\mathbb{T}^d}}{#1}
+
+
+\def\V#1{{\boldsymbol{#1}}}         % vectors
+\def\Spc#1{{\mathcal{#1}}}  % spaces
+\def\M#1{{\bf{#1}}}  % matrices
+\def\Op#1{{\mathrm{#1}}}  % operator
+\def\ee{\mathrm{e}} 
+\def\jj{\mathrm{j}} 
+\def\Indic{\mathbbm{1}} 
+\def\One{\mathbbm{1}} 
+\def\Prob{\mathscr{P}}
+\def\Form{\widehat{\Prob}} 
+\def\Exp{\mathop{\mathbb{E}}\nolimits}
+
+% \theoremstyle{inequality}
+% \newtheorem{inequality}[theorem]{Inequality}
+%
+%\renewcommand{\[}{\begin{equation}}
+%\renewcommand{\]}[1]{\label{eq:#1}\end{equation}}
+%\newcommand{\eq}[1]{{\rm(\ref{eq:#1})}}
+%\newcommand{\dd}{{\rm d}}
+%
+%\usepackage[pdftex]{graphicx}
+%\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+%
+%\usepackage[cmex10]{amsmath}
+%\usepackage{amssymb,amsthm,mathrsfs,bm}
+%\usepackage{array,color}
+% 
+%
+%
+%% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+%
+%\usepackage{fixltx2e}
+%\usepackage{url}
+%\hyphenation{op-tical net-works semi-conduc-tor}
+%
+%
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{assumption}{Assumption}
+\def\sas{S$\alpha$S}
+
+
+\makeatletter
+\def\blfootnote{\xdef\@thefnmark{}\@footnotetext}
+\makeatother
+
+
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\prox}{prox}
+\DeclareMathOperator*{\sgn}{sgn}
+
+
+
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.5.1}
+\usepgfplotslibrary{groupplots}
+\usetikzlibrary{intersections,calc,arrows,matrix,spy,math,calc,fit,positioning, decorations.pathmorphing}
+\tikzset{snake it/.style={decorate, decoration=snake}}
+
+\usetikzlibrary{arrows.meta,shapes.geometric}
+\newcommand{\tikzcircle}[2][red,fill=red]{\tikz[baseline=-0.5ex]\draw[#1,radius=#2] (0,0) circle ;}%
+\DeclareRobustCommand{\tikzarr}[4]{\tikz[baseline=0ex]\draw[-{Latex}] (#1,#2) -- (#3,#4);}
+\newcommand\irregularcircle[2]{% radius, irregularity
+  \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+  +(0:\len pt)
+  \foreach \a in {10,25,...,350}{
+    \pgfextra {\pgfmathsetmacro\len{(#1)+rand*(#2)}}
+    -- +(\a:\len pt)
+  } -- cycle
+}
