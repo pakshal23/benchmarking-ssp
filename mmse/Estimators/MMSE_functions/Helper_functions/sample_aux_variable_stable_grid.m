@@ -4,7 +4,7 @@ N = length(increments);
 out = zeros([N,1]);
 
 Alpha = params(1);
-stablePDF = makedist('Stable','Alpha',Alpha/2,'beta',1,'gam', (cos(pi*Alpha/4))^(2/Alpha),'delta',0);
+stablePDF = makedist( 'Stable', 'Alpha', Alpha/2, 'beta', 1, 'gam', (cos(pi*Alpha/4))^(2/Alpha), 'delta', 0);
 
 for i = 1:N
     
