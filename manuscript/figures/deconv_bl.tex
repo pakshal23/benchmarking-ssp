@@ -1,0 +1,28 @@
+\begin{tikzpicture}
+    \begin{axis}[
+		% Set width and height
+        width = 0.54\textwidth,
+        height = 0.45\textwidth,
+        % Labels
+        xlabel = {Mass probability $\lambda$},
+        ylabel = {$\mathrm{MSE}~[\mathrm{dB}]$},
+        y label style = {at={(0.5,1)},anchor=south,rotate=-90},
+        % Grid
+        grid = both,
+        grid style = {thin},
+        % Ticks
+        ytick = {6,8,10,12,14,16},
+        xtick = {0.6,0.7,0.8,0.9},
+		% Configure legend
+        legend style={font=\scriptsize,},
+        % Limits
+        xmin=0.59, xmax=0.91,
+        ymin=6, ymax=16.5,
+	]
+	\foreach \column in {l2,l1,log,MMSE,NN}{
+        \addplot +[fill opacity=0.5, draw opacity=0.8] table
+[x=lam,y=\column]{figures/deconv_bl_data.txt};
+    }
+    \legend{$\ell_2$,$\ell_1$,$\log$,$\mathrm{MMSE}$,CNN};
+    \end{axis}
+\end{tikzpicture}

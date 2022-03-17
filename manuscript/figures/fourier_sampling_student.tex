@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+    \begin{semilogxaxis}[
+		% Set width and height
+        width = 0.54\textwidth,
+        height = 0.45\textwidth,
+        % Labels
+        xlabel = {Degree of freedom $\alpha$},
+        ylabel = {$\mathrm{MSE}~[\mathrm{dB}]$},
+        y label style = {at={(0.5,1)},anchor=south,rotate=-90},
+        % Grid
+        grid = both,
+        grid style = {thin},
+        % Ticks
+        ytick = {0,10,20,30,40,50,60,70},
+        xtick = {20, 3, 1.5, 1},
+		% Configure legend
+        legend style={font=\scriptsize,at={(0.025,0.975)},anchor=north west},
+  		% Reverse x plot (sparse to the right)
+  		x dir = reverse,
+  		x tick label style={log ticks with fixed point},
+  		xmin=0.95, xmax=21,
+  		ymin=3.5, ymax=75,
+	]
+	\foreach \column in {l2,l1,log,MMSE,NN}{
+        \addplot +[fill opacity=0.5, draw opacity=0.8]
+table[x=alph,y=\column]{figures/fourier_sampling_student_data.txt};
+    }
+    \legend{$\ell_2$,$\ell_1$,$\log$,$\mathrm{MMSE}$,CNN};
+    \end{semilogxaxis}
+\end{tikzpicture}

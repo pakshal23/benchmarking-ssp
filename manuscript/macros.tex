@@ -1,11 +1,11 @@
 \usepackage{graphicx,epsfig}
-\usepackage{amsmath,mathrsfs} 
+\usepackage{amsmath,mathrsfs}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \makeatletter
 \def\BState{\State\hskip-\ALG@thistlm}
 \makeatother
-\usepackage{amssymb} 
+\usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{mathtools}
@@ -43,7 +43,7 @@
 \newcommand{\ud}{\,\mathrm{d}}
 
 \newcommand{\bld}{\mathcal{L}_{2, \rm L}}
-\newcommand{\Fourier}{ \mathcal{F}} 
+\newcommand{\Fourier}{ \mathcal{F}}
 \newcommand{\bz}{{\boldsymbol z}}
 \newcommand{\bx}{{\boldsymbol x}}
 %\newcommand{\by}{{\boldsymbol y}}
@@ -93,12 +93,12 @@
 \def\Spc#1{{\mathcal{#1}}}  % spaces
 \def\M#1{{\bf{#1}}}  % matrices
 \def\Op#1{{\mathrm{#1}}}  % operator
-\def\ee{\mathrm{e}} 
-\def\jj{\mathrm{j}} 
-\def\Indic{\mathbbm{1}} 
-\def\One{\mathbbm{1}} 
+\def\ee{\mathrm{e}}
+\def\jj{\mathrm{j}}
+\def\Indic{\mathbbm{1}}
+\def\One{\mathbbm{1}}
 \def\Prob{\mathscr{P}}
-\def\Form{\widehat{\Prob}} 
+\def\Form{\widehat{\Prob}}
 \def\Exp{\mathop{\mathbb{E}}\nolimits}
 
 % \theoremstyle{inequality}
@@ -115,7 +115,7 @@
 %\usepackage[cmex10]{amsmath}
 %\usepackage{amssymb,amsthm,mathrsfs,bm}
 %\usepackage{array,color}
-% 
+%
 %
 %
 %% *** SUBFIGURE PACKAGES ***
@@ -154,10 +154,13 @@
 
 
 \usepackage{tikz,pgfplots}
-\pgfplotsset{compat=1.5.1}
-\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=newest}
 \usetikzlibrary{intersections,calc,arrows,matrix,spy,math,calc,fit,positioning, decorations.pathmorphing}
 \tikzset{snake it/.style={decorate, decoration=snake}}
+\pgfplotsset{compat=newest,legend style={font=\footnotesize},
+                     ticklabel style={font=\footnotesize},
+                     x label style={font=\footnotesize},
+                     y label style={font=\footnotesize}}
 
 \usetikzlibrary{arrows.meta,shapes.geometric}
 \newcommand{\tikzcircle}[2][red,fill=red]{\tikz[baseline=-0.5ex]\draw[#1,radius=#2] (0,0) circle ;}%
