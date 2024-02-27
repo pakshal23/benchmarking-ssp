@@ -1,0 +1,51 @@
+{
+    "mode" : "train",
+    "model_dir" : "None", 
+    
+	"dataset" : {
+    	
+        "data_type" : "stochastic_process",
+        "exp_type" : "deconvolution",
+    	"data_dir" : "/home/bohra/data/nn_mmse_final/deconvolution/data/deconv_gaussian_4_student_sigparamidx_8_noiselevel_30",
+    	"num_train" : 200000,
+        "num_valid" : 1000,
+        "num_test" : 1000,
+        "cauchy" : true
+	
+	},
+	
+	"dataloader" : {
+    	
+    	"batch_size" : 256,
+    	"num_workers" : 0
+	
+	},
+	
+	"network" : {
+    	
+        "net" : "rescnn",
+        
+        "num_layers" : 10,
+        "num_channels" : 64,
+        "filter_size" : 5
+        
+    },
+    
+    "optimizer" : {
+        
+        "name" : "adam",
+        "num_epochs" : 2500,
+    	"lr" : 1e-2,
+    	"weight_decay" : 0.0,
+    	"lr_scheduler" : true,
+        "milestones" : [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750, 800, 850, 900, 950, 1000, 1050, 1100, 1150, 1200],
+        "lr_gamma" : 0.5
+        
+	},
+    
+    "device" : "cuda:0",
+	"log_dir" : "/home/bohra/data/nn_mmse_final/deconvolution/results/cnn/rev_runs_student/deconv_gaussian_4_student_sigparamidx_8_noiselevel_30/v_t",
+	"tensorboard" : true,
+    "validation_step" : 25
+	
+}
