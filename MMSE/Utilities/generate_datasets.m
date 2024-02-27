@@ -13,7 +13,7 @@ num_test_signals = 1000;
 
 num_samp_sig = 5000;   % We use num_samp_sig temporary signals to determine the noise variance from the noise level (blur SNR)
 
-handles.Prior = 'bernoulli-laplace';      % 'student' or 'alpha-stable' or 'bernoulli-laplace'
+handles.Prior = 'bernoulli-laplace';      % 'student' or 'bernoulli-laplace'
 handles.K = K;
 
 D = get_finite_difference_matrix(handles.K);
@@ -25,18 +25,7 @@ if (strcmp(handles.Prior, 'student'))
     sig_params = {20, 10, 5, 2, 1.5, 1.4, 1.3, 1.2, 1.1, 1.05, 1};
     num_sig_params =length(sig_params);
     sig_string = 'student';
-    
-elseif (strcmp(handles.Prior, 'alpha-stable'))
-    
-    alpha_vals = [2, 1.75, 1.5, 1.25, 1.1, 1];
-    num_sig_params =length(alpha_vals);
-    sig_params = cell([num_sig_params, 1]);
-    sig_string = 'stable';
-    
-    for i = 1:num_sig_params
-        sig_params{i} = [alpha_vals(i), 0, 1, 0];
-    end
-    
+        
 elseif (strcmp(handles.Prior, 'bernoulli-laplace'))
     
     b = 1;

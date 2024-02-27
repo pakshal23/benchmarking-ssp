@@ -42,7 +42,7 @@ def get_data_loader(dataset, params):
         dataset,
         batch_size=params.batch_size,
         shuffle=True,
-        num_workers=params.num_workers, drop_last=True, pin_memory=False
+        num_workers=params.num_workers, drop_last=False, pin_memory=False
     )
 
     return data_loader  

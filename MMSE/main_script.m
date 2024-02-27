@@ -7,7 +7,7 @@ pctRunOnAll warning off
 %% Settings
 data_folder = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/data';
 experiment = 'deconv_gaussian';     % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
-sig_type = 'bernoulli-laplace';       % 'student' or 'alpha-stable' or 'bernoulli-laplace'
+sig_type = 'bernoulli-laplace';       % 'student' or 'bernoulli-laplace'
 data_label = 'test';            % 'train' or 'valid' or 'test'
 
 exp_param = 4;     % parameter for the chosen experiment (see generate_datasets.m for more details)
@@ -19,8 +19,6 @@ save_dir = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/results';
 %% Loading the data and setting up the directory to store the results
 if (strcmp(sig_type, 'student'))
     sig_string = 'student';
-elseif (strcmp(sig_type, 'alpha-stable'))
-    sig_string = 'stable';
 elseif (strcmp(sig_type, 'bernoulli-laplace'))
     sig_string = 'bl';
 end

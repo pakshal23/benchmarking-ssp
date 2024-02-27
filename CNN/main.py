@@ -3,6 +3,7 @@
 import argparse
 from utils import get_config_from_json
 from manager import Manager
+import math
 
 
 if __name__ == "__main__":
@@ -27,5 +28,7 @@ if __name__ == "__main__":
         # In the "test" mode , please provide a file with the trained model as "model_dir"
         manager_obj = Manager(params)
         # Evaluate the provided trained model for the test dataset
-        test_set_mse = manager_obj.eval_dataset_mse(mode='test')
+        test_set_mse, mean_time = manager_obj.eval_dataset_mse(mode='test')
         print('Testing error: ' + str(test_set_mse))
+        print('Testing error (dB): ' + str(10*math.log10(test_set_mse)))
+        print(mean_time)

@@ -1,14 +1,11 @@
-# References :
-# https://github.com/kuangliu/pytorch-cifar
-# https://pytorch.org/tutorials/beginner/blitz/cifar10_tutorial.html
-
 from project import Project
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from datasets import init_dataset
-from networks import ResCNN, ResUNet
+from networks import ResCNN, ResUNet, ResCNN_no_bn
 from utils import get_data_loader
+import time
 
 
 #### MANAGER
@@ -22,7 +19,9 @@ class Manager(Project):
         super().__init__(params)
 
         self.init_devices()
-        self.init_log()
+
+        if (self.params.mode == 'train'):
+            self.init_log()
     
         # Display the parameters
         print('\nconfiguration : ', self.params, sep='\n')
@@ -32,6 +31,14 @@ class Manager(Project):
         
         # Build the network
         self.net = self.build_model(self.params.network, self.device)
+
+        if (self.params.mode == 'test'):
+            self.net.eval()
+            model_dir = self.params.log_dir + '/' + self.params.network.net + '_F_' + str(self.params.network.filter_size) + '_C_' + str(self.params.network.num_channels) + '_L_' + str(self.params.network.num_layers) + '_batchsize_' + str(self.params.dataloader.batch_size) + '_lr_' + str(self.params.optimizer.lr) + '_num_samples_' + str(self.params.dataset.num_train) + '_wd_' + str(self.params.optimizer.weight_decay)
+            #model_dir = self.params.log_dir + '/' + self.params.network.net + '_F_' + str(self.params.network.filter_size) + '_C_' + str(self.params.network.num_channels) + '_L_' + str(self.params.network.num_layers) + '_batchsize_' + str(self.params.dataloader.batch_size) + '_lr_' + str(self.params.optimizer.lr) + '_num_samples_' + str(self.params.dataset.num_train)
+            model_file = model_dir + '/models/model_' + str(self.params.model_num).zfill(6) + '.pt'
+            loaded_dict = torch.load(model_file, map_location='cpu')
+            self.net.load_state_dict(loaded_dict['model_state'])
         
         # Set up the optimization for training
         if (self.params.mode == 'train'):
@@ -51,6 +58,7 @@ class Manager(Project):
         print('\n==> Building model..')
         custom_models_dict = {  
                                 'rescnn' : ResCNN,
+                                'rescnn_no_bn' : ResCNN_no_bn,
                                 'resunet': ResUNet
                              }
 
@@ -71,17 +79,21 @@ class Manager(Project):
         optim_name = params.name 
         lr, weight_decay = params.lr, params.weight_decay
         
-        conv_params_iter = self.net.parameters_conv()
-        bn_params_iter = self.net.parameters_bn()
+        #conv_params_iter = self.net.parameters_conv()
+        #bn_params_iter = self.net.parameters_bn()
         
         # Set the optimizer
         if optim_name == 'adam':
-            self.optimizer = optim.Adam([ {'params' : conv_params_iter}, 
-                                         {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay)
+            #self.optimizer = optim.Adam([ {'params' : conv_params_iter}, 
+            #                             {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay)
+
+            self.optimizer = optim.Adam(self.net.parameters(), lr = lr, weight_decay = weight_decay)
     
         elif optim_name == 'sgd':
-            self.optimizer = optim.SGD([ {'params' : conv_params_iter},                                            
-                                        {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay, momentum = 0.9, nesterov=True)
+            #self.optimizer = optim.SGD([ {'params' : conv_params_iter},                                            
+            #                            {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay, momentum = 0.9, nesterov=True)
+
+            self.optimizer = optim.SGD(self.net.parameters(), lr = lr, weight_decay = weight_decay, momentum = 0.9, nesterov=True)
             
         # Set the scheduler
         self.scheduler = None
@@ -112,6 +124,8 @@ class Manager(Project):
             epoch_loss = 0.0
 
             for batch_idx, (measurements, signals) in enumerate(self.trainloader):
+
+                #print(signals.shape[0])
             
                 measurements, signals = measurements.to(self.device), signals.to(self.device)
                 reconstructed_signals = self.net(measurements)
@@ -130,7 +144,7 @@ class Manager(Project):
             self.net.train()
         
             if self.scheduler is not None:
-                self.scheduler.step(epoch)
+                self.scheduler.step()
             
         print('\nFinished training.')
         
@@ -144,7 +158,11 @@ class Manager(Project):
         valid_loss = 0.0
         with torch.no_grad():
 
+            #print('Validation')
+
             for batch_idx, (measurements, signals) in enumerate(self.validloader):
+
+                #print(signals.shape[0])
 
                 measurements, signals = measurements.to(self.device), signals.to(self.device)
                 initial_reconstructed_signals = self.net.get_initial_reconstruction(measurements)
@@ -166,6 +184,7 @@ class Manager(Project):
     
     def eval_dataset_mse(self, mode="train"):
         """ """
+        self.params.dataloader.batch_size = 1
         self.net.eval()
         self.dataset_eval, forward_model = self.dataset.get_dataset(dataset_type=mode)
         self.dataloader_eval = get_data_loader(self.dataset_eval, self.params.dataloader)
@@ -179,16 +198,22 @@ class Manager(Project):
             num_signals = self.params.dataset.num_test
             
         total_err = 0.0
+        total_time = 0.0
         with torch.no_grad():
 
             for batch_idx, (measurements, signals) in enumerate(self.dataloader_eval):
 
+                print(batch_idx)
+
                 measurements, signals = measurements.to(self.device), signals.to(self.device)
-                reconstructed_signals = self.net(measurements)
+                #t_s = time.time()
+                reconstructed_signals, t_signal = self.net(measurements)
+                total_time = total_time + t_signal
 
                 batch_err = self.criterion(reconstructed_signals, signals)
                 total_err += batch_err.item()
                 
             mse = total_err/num_signals
+            mean_time = total_time/num_signals
             
-        return mse
+        return mse, mean_time

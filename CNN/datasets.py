@@ -51,6 +51,15 @@ class SSPDataset():
         H = torch.tensor(data_mat['H'], dtype=torch.float)
         M = H.shape[0]
         K = H.shape[1]
+
+        if (self.params.exp_type == "fourier_sampling"):
+            print("**** Fourier sampling experiment ****")
+            H_temp = H.clone()
+            H = torch.zeros([2*M-1, K])
+            H[0,:] = H_temp[0,:]
+            H[1:M,:] = H_temp[1:,:]
+            H[M:(2*M-1),:] = H_temp[1:,:]
+            H = H/K
     
         if (dataset_type == 'train'):
             num_samples = self.params.num_train
@@ -60,15 +69,32 @@ class SSPDataset():
             num_samples = self.params.num_test
             
         x_data = torch.empty([K, num_samples], dtype=torch.float)
-        y_data = torch.empty([M, num_samples], dtype=torch.float)
-    
         X = data_mat['x_cell']
         Y = data_mat['y_cell']
-    
-        for i in range(num_samples):
-            x_data[:, i:i+1] = torch.tensor(X[0, i])
-            y_data[:, i:i+1] = torch.tensor(Y[0, i])
-    
+
+        if (self.params.exp_type == "fourier_sampling"):
+            y_data = torch.empty([2*M-1, num_samples], dtype=torch.float)
+            for i in range(num_samples):
+                x_data[:, i:i+1] = torch.tensor(X[0, i])
+                tmp = torch.tensor(Y[0, i])
+                y_data[0, i:i+1] = tmp[0]
+                y_data[1:M,i:i+1] = tmp[1:M]
+                y_data[M:2*M-1,i:i+1] = tmp[1:M]
+
+            #y_data = torch.empty([M, num_samples], dtype=torch.float)
+            #for i in range(num_samples):
+            #    x_data[:, i:i+1] = torch.tensor(X[0, i])
+            #    y_data[:, i:i+1] = torch.tensor(Y[0, i])
+        else:
+            y_data = torch.empty([M, num_samples], dtype=torch.float)
+            for i in range(num_samples):
+                x_data[:, i:i+1] = torch.tensor(X[0, i])
+                y_data[:, i:i+1] = torch.tensor(Y[0, i])
+
+        #y_data = torch.empty([M, num_samples], dtype=torch.float)
+        #for i in range(num_samples):
+        #    x_data[:, i:i+1] = torch.tensor(X[0, i])
+        #    y_data[:, i:i+1] = torch.tensor(Y[0, i])
     
         x_data = torch.transpose(x_data, 0, 1)   # num_samples X K (length of signal)
         y_data = torch.transpose(y_data, 0, 1)   # num_samples X M (length of measurements) 
