@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from datasets import init_dataset
-from networks import ResCNN, ResUNet, ResCNN_no_bn
+from networks import ResCNN, ResCNN_no_bn
 from utils import get_data_loader
 import time
 
@@ -58,8 +58,7 @@ class Manager(Project):
         print('\n==> Building model..')
         custom_models_dict = {  
                                 'rescnn' : ResCNN,
-                                'rescnn_no_bn' : ResCNN_no_bn,
-                                'resunet': ResUNet
+                                'rescnn_no_bn' : ResCNN_no_bn
                              }
 
         assert params.net in custom_models_dict.keys()
@@ -79,20 +78,11 @@ class Manager(Project):
         optim_name = params.name 
         lr, weight_decay = params.lr, params.weight_decay
         
-        #conv_params_iter = self.net.parameters_conv()
-        #bn_params_iter = self.net.parameters_bn()
-        
         # Set the optimizer
         if optim_name == 'adam':
-            #self.optimizer = optim.Adam([ {'params' : conv_params_iter}, 
-            #                             {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay)
-
             self.optimizer = optim.Adam(self.net.parameters(), lr = lr, weight_decay = weight_decay)
     
         elif optim_name == 'sgd':
-            #self.optimizer = optim.SGD([ {'params' : conv_params_iter},                                            
-            #                            {'params' : bn_params_iter, 'weight_decay' : 0.0}], lr = lr, weight_decay = weight_decay, momentum = 0.9, nesterov=True)
-
             self.optimizer = optim.SGD(self.net.parameters(), lr = lr, weight_decay = weight_decay, momentum = 0.9, nesterov=True)
             
         # Set the scheduler
@@ -101,7 +91,6 @@ class Manager(Project):
             self.scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer, params.milestones, gamma=params.lr_gamma)
         
         
-
 
 ##################################################################################################
 #### TRAIN
@@ -198,7 +187,7 @@ class Manager(Project):
             num_signals = self.params.dataset.num_test
             
         total_err = 0.0
-        total_time = 0.0
+        #total_time = 0.0
         with torch.no_grad():
 
             for batch_idx, (measurements, signals) in enumerate(self.dataloader_eval):
@@ -207,13 +196,16 @@ class Manager(Project):
 
                 measurements, signals = measurements.to(self.device), signals.to(self.device)
                 #t_s = time.time()
-                reconstructed_signals, t_signal = self.net(measurements)
-                total_time = total_time + t_signal
+                #reconstructed_signals, t_signal = self.net(measurements)
+                #total_time = total_time + t_signal
+
+                reconstructed_signals = self.net(measurements)
 
                 batch_err = self.criterion(reconstructed_signals, signals)
                 total_err += batch_err.item()
                 
             mse = total_err/num_signals
-            mean_time = total_time/num_signals
+            #mean_time = total_time/num_signals
             
-        return mse, mean_time
+        #return mse, mean_time
+        return mse

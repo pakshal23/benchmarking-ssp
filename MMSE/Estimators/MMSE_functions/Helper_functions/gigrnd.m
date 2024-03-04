@@ -25,6 +25,7 @@
 % Statistics and Computing, Vol. 24, pp. 239-246, 2014.
 %
 % (c) Copyright Enes Makalic and Daniel F. Schmidt, 2015
+
 function X = gigrnd(P, a, b, sampleSize)
 %% Setup -- we sample from the two parameter version of the GIG(alpha,omega)
 lambda = P;

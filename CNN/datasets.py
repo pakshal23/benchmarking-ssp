@@ -81,20 +81,11 @@ class SSPDataset():
                 y_data[1:M,i:i+1] = tmp[1:M]
                 y_data[M:2*M-1,i:i+1] = tmp[1:M]
 
-            #y_data = torch.empty([M, num_samples], dtype=torch.float)
-            #for i in range(num_samples):
-            #    x_data[:, i:i+1] = torch.tensor(X[0, i])
-            #    y_data[:, i:i+1] = torch.tensor(Y[0, i])
         else:
             y_data = torch.empty([M, num_samples], dtype=torch.float)
             for i in range(num_samples):
                 x_data[:, i:i+1] = torch.tensor(X[0, i])
                 y_data[:, i:i+1] = torch.tensor(Y[0, i])
-
-        #y_data = torch.empty([M, num_samples], dtype=torch.float)
-        #for i in range(num_samples):
-        #    x_data[:, i:i+1] = torch.tensor(X[0, i])
-        #    y_data[:, i:i+1] = torch.tensor(Y[0, i])
     
         x_data = torch.transpose(x_data, 0, 1)   # num_samples X K (length of signal)
         y_data = torch.transpose(y_data, 0, 1)   # num_samples X M (length of measurements) 
