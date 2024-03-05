@@ -1,11 +1,11 @@
-%% Main script for comparing l1, l2, log and MMSE estimators in a deconvolution or Fourier sampling task.
+%% Example script for comparing l1, l2, log and MMSE estimators in a deconvolution or Fourier sampling task.
 
 parpool(4);
 warning('off');
 pctRunOnAll warning off
 
 %% Settings
-data_folder = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/data';
+data_folder = '/data/';
 experiment = 'deconv_gaussian';     % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 sig_type = 'bernoulli-laplace';       % 'student' or 'bernoulli-laplace'
 data_label = 'test';            % 'train' or 'valid' or 'test'
@@ -14,7 +14,7 @@ exp_param = 4;     % parameter for the chosen experiment (see generate_datasets.
 noise_level = 30;   % input SNR
 sig_param_idx = 1;  % Index indicating the signal parameter (see generate_datasets.m for more details)
 
-save_dir = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/results';
+save_dir = '/results/';
 
 %% Loading the data and setting up the directory to store the results
 if (strcmp(sig_type, 'student'))

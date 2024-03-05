@@ -3,7 +3,7 @@
 
 %%
 save_data = 0;
-dest_folder = '/Users/bohra/Desktop/BenchmarkingSSP/mmse/deconvolution/data';
+dest_folder = '/data';
 experiment = 'deconv_gaussian';  % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 
 K = 100;

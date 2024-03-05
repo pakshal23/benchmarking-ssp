@@ -6,11 +6,10 @@
     	
         "data_type" : "stochastic_process",
         "exp_type" : "deconvolution",
-    	"data_dir" : "/home/bohra/data/nn_mmse_final/deconvolution/data/deconv_gaussian_4_bl_sigparamidx_3_noiselevel_30",
+    	"data_dir" : "/data/deconv_gaussian_4_bl_sigparamidx_3_noiselevel_30",
     	"num_train" : 200000,
         "num_valid" : 1000,
-        "num_test" : 1000,
-        "cauchy" : false
+        "num_test" : 1000
 	
 	},
 	
@@ -44,7 +43,7 @@
 	},
     
     "device" : "cuda:0",
-	"log_dir" : "/home/bohra/data/nn_mmse_final/deconvolution/results/cnn/rev_runs_bl/deconv_gaussian_4_bl_sigparamidx_3_noiselevel_30/v0",
+	"log_dir" : "/logs/deconv_gaussian_4_bl_sigparamidx_3_noiselevel_30",
 	"tensorboard" : true,
     "validation_step" : 25
 	
