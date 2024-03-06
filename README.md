@@ -12,4 +12,9 @@ Requirements
 * PyTorch (for reconstruction using neural networks)
 * [GlobalBioIm](https://github.com/Biomedical-Imaging-Group/GlobalBioIm) library (for reconstruction using $\ell_1$-norm and log penalty regularizers)
 
+Developers
+------------------
+This framework was developed at the Biomedical Imaging Group, École polytechnique fédérale de Lausanne (EPFL), Switzerland. This work was supported in part by the Swiss National Science Foundation under Grant 200020_184646 / 1 and in part by the European Research Council (ERC Project FunLearn) under Grant 101020573.
+
+Contributors: Pakshal Bohra (pakshalbohra@gmail.com), Pol del Aguila Pla, Jean-François Giovanelli
 
