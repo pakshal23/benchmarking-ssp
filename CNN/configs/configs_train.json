@@ -6,16 +6,16 @@
     	
         "data_type" : "stochastic_process",
         "exp_type" : "deconvolution",
-    	"data_dir" : "/data/deconv_gaussian_4_student_sigparamidx_8_noiselevel_30",
-    	"num_train" : 200000,
-        "num_valid" : 1000,
-        "num_test" : 1000
+    	"data_dir" : "../data/deconv_gaussian_4_bl_sigparamidx_1_noiselevel_20",
+    	"num_train" : 10,
+        "num_valid" : 10,
+        "num_test" : 10
 	
 	},
 	
 	"dataloader" : {
     	
-    	"batch_size" : 256,
+    	"batch_size" : 5,
     	"num_workers" : 0
 	
 	},
@@ -24,16 +24,16 @@
     	
         "net" : "rescnn",
         
-        "num_layers" : 10,
-        "num_channels" : 64,
-        "filter_size" : 5
+        "num_layers" : 5,
+        "num_channels" : 32,
+        "filter_size" : 3
         
     },
     
     "optimizer" : {
         
         "name" : "adam",
-        "num_epochs" : 2500,
+        "num_epochs" : 10,
     	"lr" : 1e-2,
     	"weight_decay" : 0.0,
     	"lr_scheduler" : true,
@@ -43,8 +43,8 @@
 	},
     
     "device" : "cuda:0",
-	"log_dir" : "/logs/deconv_gaussian_4_student_sigparamidx_8_noiselevel_30",
+	"log_dir" : "../results/cnn/logs/deconv_gaussian_4_bl_sigparamidx_1_noiselevel_20",
 	"tensorboard" : true,
-    "validation_step" : 25
+    "validation_step" : 5
 	
 }

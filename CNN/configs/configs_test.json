@@ -1,21 +1,21 @@
 {
     "mode" : "test",
-    "model_num" : 1000, 
+    "model_num" : 5, 
     
 	"dataset" : {
     	
         "data_type" : "stochastic_process",
-        "exp_type" : "fourier_sampling",
-    	"data_dir" : "/data/fourier_samp_31_student_sigparamidx_5_noiselevel_30",
-    	"num_train" : 350000,
-        "num_valid" : 1000,
+        "exp_type" : "deconvolution",
+    	"data_dir" : "../data/deconv_gaussian_4_bl_sigparamidx_1_noiselevel_20",
+    	"num_train" : 10,
+        "num_valid" : 10,
         "num_test" : 10
 	
 	},
 	
 	"dataloader" : {
     	
-    	"batch_size" : 256,
+    	"batch_size" : 5,
     	"num_workers" : 0
 	
 	},
@@ -24,18 +24,18 @@
     	
         "net" : "rescnn",
         
-        "num_layers" : 15,
-        "num_channels" : 64,
-        "filter_size" : 9
+        "num_layers" : 5,
+        "num_channels" : 32,
+        "filter_size" : 3
         
     },
     
     "optimizer" : {
         
         "name" : "adam",
-        "num_epochs" : 1200,
+        "num_epochs" : 10,
     	"lr" : 1e-2,
-    	"weight_decay" : 1e-3,
+    	"weight_decay" : 0.0,
     	"lr_scheduler" : true,
         "milestones" : [50, 100, 150, 200, 250, 300, 350, 400, 450, 500, 550, 600, 650, 700, 750],
         "lr_gamma" : 0.5
@@ -43,7 +43,7 @@
 	},
     
     "device" : "cuda:0",
-	"log_dir" : "/results/fourier_samp_31_student_sigparamidx_5_noiselevel_30",
+	"log_dir" : "../results/cnn/logs/deconv_gaussian_4_bl_sigparamidx_1_noiselevel_20",
 	"tensorboard" : true,
     "validation_step" : 25
 	
