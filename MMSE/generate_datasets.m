@@ -2,18 +2,22 @@
 
 
 %%
-save_data = 0;
-dest_folder = '/data';
+save_data = 1;
+dest_folder = '../data';
+if ~exist(dest_folder, 'dir')
+    mkdir(dest_folder);
+end
+
 experiment = 'deconv_gaussian';  % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 
 K = 100;
-num_train_signals = 1000;
-num_valid_signals = 1000;
-num_test_signals = 1000;
+num_train_signals = 10;
+num_valid_signals = 10;
+num_test_signals = 10;
 
 num_samp_sig = 5000;   % We use num_samp_sig temporary signals to determine the noise variance from the noise level (blur SNR)
 
-handles.Prior = 'bernoulli-laplace';      % 'student' or 'bernoulli-laplace'
+handles.Prior = 'student';      % 'student' or 'bernoulli-laplace'
 handles.K = K;
 
 D = get_finite_difference_matrix(handles.K);
@@ -39,7 +43,7 @@ end
 %% Experiment parameters depending on the type of experiment
 if (strcmp(experiment, 'deconv_gaussian'))
     
-    noise_level = 20;                                                      % Noise level (input SNR) for the additive noise
+    noise_level = 30;                                                      % Noise level (input SNR) for the additive noise
     exp_param = 4;                                                         % variance of the gaussian blur / filter
     [H, M] = get_measurement_matrix(experiment, exp_param, K);
     H = eye(K); M = K;

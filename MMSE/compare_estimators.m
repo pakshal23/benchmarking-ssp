@@ -1,20 +1,23 @@
 %% Example script for comparing l1, l2, log and MMSE estimators in a deconvolution or Fourier sampling task.
 
-parpool(4);
+parpool(10);
 warning('off');
 pctRunOnAll warning off
 
 %% Settings
-data_folder = '/data/';
-experiment = 'deconv_gaussian';     % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
+data_folder = '../data';
+experiment = 'deconv_gaussian';       % 'deconv_gaussian' or 'deconv_airy_disk' or 'fourier_samp'
 sig_type = 'bernoulli-laplace';       % 'student' or 'bernoulli-laplace'
-data_label = 'test';            % 'train' or 'valid' or 'test'
+data_label = 'test';                  % 'train' or 'valid' or 'test'
 
 exp_param = 4;     % parameter for the chosen experiment (see generate_datasets.m for more details)
-noise_level = 30;   % input SNR
+noise_level = 20;   % input SNR
 sig_param_idx = 1;  % Index indicating the signal parameter (see generate_datasets.m for more details)
 
-save_dir = '/results/';
+save_dir = '../results/';
+if ~exist(save_dir, 'dir')
+    mkdir(save_dir);
+end
 
 %% Loading the data and setting up the directory to store the results
 if (strcmp(sig_type, 'student'))
@@ -38,9 +41,9 @@ opt_params.ItUpOut = 10;
 opt_params.iterVerb = 10;
 
 x0 = zeros([handles.K,1]);  % initialization for the iterative schemes
-lambda_list = 10.^(-6 : 0.5 : 3);   % Range of lambda values to tune over (for l1 and log estimators)
+lambda_list = 10.^(-1 : 1 : 1);   % Range of lambda values to tune over (for l1 and log estimators)
 num_lambda = length(lambda_list);
-lambda_list_l2 = 10.^(-8 : 0.5 : 3);   % Range of lambda values to tune over (for l1 and log estimators)
+lambda_list_l2 = 10.^(-1 : 1 : 1);   % Range of lambda values to tune over (for l1 and log estimators)
 num_lambda_l2 = length(lambda_list_l2);
 
 % Parameters for the MMSE estimator
@@ -130,13 +133,11 @@ parfor j = 1:num_signals
     sig = x_cell{1, j};
     meas = y_cell{1, j};
     curr_x0_log = x0_log{1, j};
-    %curr_x0_log  = randn(100,1);
 
     % log-estimator
     [x_log(j,:), err_log(j,:), opt_cost_log(j,:), num_iter_log(j,:)] = tune_lambda(log_estimator_fun, meas, sig, lambda_list, [], opt_params, curr_x0_log);
 
     % MMSE-estimator
-    %x_mmse{j} = gs_mmse_estimator(meas, Hval.Value, Dval.Value, x0val.Value, mmse_sig_params, mmse_algo_params);
     x_mmse{j} = gs_mmse_estimator(meas, Hval.Value, Dval.Value, (Dval.Value)*curr_x0_log, mmse_sig_params, mmse_algo_params);
     err_mmse(j) = norm(sig - x_mmse{j})^2;
 end
